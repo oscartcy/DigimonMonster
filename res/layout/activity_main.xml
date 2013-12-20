@@ -3,6 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
+    
+    <RelativeLayout
+        android:id="@+id/Field"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:alpha="0.5"
+            android:src="@drawable/grass_field" />
+
+        <ImageView
+            android:id="@+id/digimon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:src="@drawable/digi_0001" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/TopButtonBar"
@@ -12,32 +36,35 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
 
-        <TextView
-            android:id="@+id/textView1"
+        <Button
+            android:id="@+id/stat_name"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Stat"
+            android:onClick="statButtonPressed"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/textView2"
+        <Button
+            android:id="@+id/stat_age"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Feed"
+            android:onClick="feedButtonPressed"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <Button
+            android:id="@+id/stat_weight"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Train"
+            android:onClick="trainButtonPressed"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/stat_hunger"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -75,31 +102,4 @@
             android:text="Call"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/Field"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/BotButtonBar"
-        android:layout_below="@+id/TopButtonBar" >
-
-        <ImageView
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:alpha="0.5"
-            android:src="@drawable/grass_field" />
-
-        <ImageView
-            android:id="@+id/digimon"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:src="@drawable/digi_0001" />
-
-    </RelativeLayout>
-
 </RelativeLayout>

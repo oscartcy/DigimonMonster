@@ -15,14 +15,41 @@
         android:theme="@android:style/Theme.Light.NoTitleBar" >
         <activity
             android:name="com.example.digimonmonster.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:screenOrientation="landscape"
-            android:configChanges="keyboardHidden|orientation" >
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="StatActivity"
+            android:configChanges="orientation"
+            android:parentActivityName="com.example.digimonmonster.MainActivity"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.digimonmonster.MainActivity" />
+        </activity>
+        <activity
+            android:name="FeedActivity"
+            android:configChanges="orientation"
+            android:parentActivityName="com.example.digimonmonster.MainActivity"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.digimonmonster.MainActivity" />
+        </activity>
+        <activity
+            android:name="TrainActivity"
+            android:configChanges="orientation"
+            android:parentActivityName="com.example.digimonmonster.MainActivity"
+            android:screenOrientation="landscape" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.digimonmonster.MainActivity" />
         </activity>
     </application>
 

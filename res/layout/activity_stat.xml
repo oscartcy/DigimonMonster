@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        android:src="@drawable/grass_field" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <ImageView
+            android:id="@+id/train_ready"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/digi_0001" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/stat_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="XX獸"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/stat_age"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="年齡: 1yr"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/stat_font_size" />
+
+            <TextView
+                android:id="@+id/stat_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="體重: 5g"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/stat_font_size" />
+
+            <TextView
+                android:id="@+id/stat_hunger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="飽滿值: 1/4"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/stat_font_size" />
+
+            <TextView
+                android:id="@+id/stat_strength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="力量值: 1/4"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/stat_font_size" />
+
+            <TextView
+                android:id="@+id/stat_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="形態: 成長形"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/stat_font_size" />
+
+            <TextView
+                android:id="@+id/stat_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/stat_spacing"
+                android:text="DP: 20/20"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="@dimen/stat_font_size" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
