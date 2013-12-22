@@ -12,18 +12,114 @@
         android:scaleType="centerCrop"
         android:src="@drawable/grass_field" />
 
-    <ImageView
-        android:id="@+id/train_ready"
+    <RelativeLayout
+        android:id="@+id/train_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ready"
-        android:visibility="visible" />
-    
-    <ImageView
-        android:id="@+id/train_count"
+        android:visibility="visible" >
+
+        <ImageView
+            android:id="@+id/train_ready"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ready"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/train_count"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/count"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/digimon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/digi_0001"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/train_ball1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/digimon"
+            android:src="@drawable/fireball"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/train_ball2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/digimon"
+            android:src="@drawable/fireball"
+            android:visibility="invisible" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/train_superhit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/count"
-        android:visibility="invisible" />
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="41dp"
+            android:src="@drawable/digi_0001" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/imageView3"
+            android:src="@drawable/superhit" />
+
+        <TextView
+            android:id="@+id/train_hit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="150dp"
+            android:layout_toLeftOf="@+id/imageView3"
+            android:text="3"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="50dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/train_megahit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40dp"
+            android:src="@drawable/digi_0001" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/megahit" />
+    </RelativeLayout>
 
 </RelativeLayout>
