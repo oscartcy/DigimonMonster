@@ -27,6 +27,16 @@
             android:src="@drawable/digi_0001" />
 
         <ImageView
+            android:id="@+id/newDigimon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:visibility="invisible"
+            android:src="@drawable/digi_1000" />
+
+        <ImageView
             android:id="@+id/shit1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,15 +63,6 @@
             android:scaleType="fitXY"
             android:src="@drawable/water"
             android:visibility="invisible" />
-
-        <RelativeLayout
-            android:id="@+id/light"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#000000"
-            android:visibility="invisible" >
-        </RelativeLayout>
-
     </RelativeLayout>
 
     <LinearLayout
@@ -77,10 +78,10 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="statButtonPressed"
-            android:text="Stat"
-            android:src="@drawable/menu_stat"
             android:background="@null"
+            android:onClick="statButtonPressed"
+            android:src="@drawable/menu_stat"
+            android:text="Stat"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
@@ -88,10 +89,10 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="feedButtonPressed"
-            android:text="Feed"
-            android:src="@drawable/menu_feed"
             android:background="@null"
+            android:onClick="feedButtonPressed"
+            android:src="@drawable/menu_feed"
+            android:text="Feed"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
@@ -99,10 +100,10 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="trainButtonPressed"
-            android:text="Train"
-            android:src="@drawable/menu_train"
             android:background="@null"
+            android:onClick="trainButtonPressed"
+            android:src="@drawable/menu_train"
+            android:text="Train"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
@@ -110,9 +111,9 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Battle"
-            android:src="@drawable/menu_battle"
             android:background="@null"
+            android:src="@drawable/menu_battle"
+            android:text="Battle"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -123,14 +124,14 @@
         android:layout_alignParentBottom="true" >
 
         <ImageButton
-            android:id="@+id/TextView02"
+            android:id="@+id/clean_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="cleanButtonPressed"
-            android:text="Clean"
-            android:src="@drawable/menu_clean"
             android:background="@null"
+            android:onClick="cleanButtonPressed"
+            android:src="@drawable/menu_clean"
+            android:text="Clean"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
@@ -138,10 +139,10 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Light"
-            android:src="@drawable/menu_light"
             android:background="@null"
             android:onClick="lightButtonPressed"
+            android:src="@drawable/menu_light"
+            android:text="Light"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
@@ -149,20 +150,30 @@
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Call"
-            android:src="@drawable/menu_call"
             android:background="@null"
+            android:src="@drawable/menu_call"
+            android:text="Call"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-        
-                <ImageButton
-            android:id="@+id/TextView02"
+
+        <ImageButton
+            android:id="@+id/setting_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Setting"
-            android:src="@drawable/menu_setting"
             android:background="@null"
+            android:src="@drawable/menu_setting"
+            android:text="Setting"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/light"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/BotButtonBar"
+        android:layout_below="@+id/TopButtonBar"
+        android:background="#000000"
+        android:visibility="invisible" >
+    </RelativeLayout>
 
 </RelativeLayout>
