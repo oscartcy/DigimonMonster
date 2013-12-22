@@ -14,10 +14,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.media.AudioManager;
+import android.media.Image;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.View;
@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
 	private float animatePadding;
 	final private float animatePaddingPd = 40;
 	final private int duration = 2000;
+	private float shitPadding = 0;
 
 	private AnimatorSet currentAnimation;
 	private boolean endAnimation = false;
@@ -40,19 +41,21 @@ public class MainActivity extends Activity {
 	public final static int FEED_REQUEST_CODE = 10;
 	public final static int FEED_MEAT = 11;
 	public final static int FEED_PILL = 12;
-
+	
 	public final static int TRAIN_REQUEST_CODE = 20;
 	public final static int TRAIN_HAPPY = 21;
 	public final static int TRAIN_UNHAPPY = 22;
 
 	private int animationCode = 0;
-
+	
 	private ImageView food;
 	private ImageView emotion;
-
+	
 	private final int emotionFlashDuration = 500;
-
-	// sound
+	
+	private ImageView water;
+	
+	//sound
 	private SoundPool soundPool;
 	private int successSound;
 	private int failSound;
@@ -62,11 +65,17 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
-		// initial sound
-		soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
-		successSound = soundPool.load(this, R.raw.e07, 1);
-		failSound = soundPool.load(this, R.raw.e08, 1);
+		
+		RelativeLayout field = (RelativeLayout) findViewById(R.id.Field);
+		emotion = new ImageView(this);
+		emotion.setImageResource(R.drawable.happy);
+		emotion.setVisibility(View.INVISIBLE);
+		field.addView(emotion);
+		
+	    //initial sound
+	    soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+	    successSound = soundPool.load(this, R.raw.e07, 1);
+	    failSound = soundPool.load(this, R.raw.e08, 1);
 	}
 
 	@Override
@@ -98,27 +107,27 @@ public class MainActivity extends Activity {
 					r.getDisplayMetrics());
 
 			layoutSize = getLayoutSize();
-
-			// animationCode = TRAIN_HAPPY;
+			
+			//animationCode = TRAIN_HAPPY;
 
 			switch (animationCode) {
 			case 0:
-				// endAnimation = false;
+				//endAnimation = false;
 				walkAnimation();
 				break;
-
+				
 			case FEED_MEAT:
 				eatAnimation(FEED_MEAT);
 				break;
-
+				
 			case FEED_PILL:
 				eatAnimation(FEED_MEAT);
 				break;
-
+				
 			case TRAIN_HAPPY:
 				emotionAnimation(TRAIN_HAPPY);
 				break;
-
+				
 			case TRAIN_UNHAPPY:
 				emotionAnimation(TRAIN_UNHAPPY);
 				break;
@@ -135,7 +144,7 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		animationCode = resultCode;
 		RelativeLayout field = (RelativeLayout) findViewById(R.id.Field);
-
+		
 		switch (requestCode) {
 		case FEED_REQUEST_CODE:
 			food = new ImageView(this);
@@ -147,16 +156,15 @@ public class MainActivity extends Activity {
 
 			field.addView(food);
 			break;
-
+			
 		case TRAIN_REQUEST_CODE:
-			emotion = new ImageView(this);
-			if (resultCode == TRAIN_HAPPY) {
+			if(resultCode == TRAIN_HAPPY) {
 				emotion.setImageResource(R.drawable.happy);
 			} else {
 				emotion.setImageResource(R.drawable.angry1);
 			}
-
-			field.addView(emotion);
+			
+			//field.addView(emotion);
 		default:
 			break;
 		}
@@ -174,13 +182,15 @@ public class MainActivity extends Activity {
 	// animation coding
 	private void walkAnimation() {
 		animationStarted = true;
-
-		// digimon.setImageResource(R.drawable.digi_0001);
+		
+		drawShit();
+		
+		//digimon.setImageResource(R.drawable.digi_0001);
 		digimon.setX(animatePadding);
 		digimon.setY(layoutSize.y / 2.0f - digimonSize.y / 2.0f);
 
 		ObjectAnimator anim1 = ObjectAnimator.ofFloat(digimon, "x",
-				layoutSize.x - digimonSize.x);
+				layoutSize.x - digimonSize.x - shitPadding);
 		anim1.setDuration(duration);
 		anim1.setStartDelay(1000);
 		anim1.setInterpolator(new LinearInterpolator());
@@ -275,23 +285,25 @@ public class MainActivity extends Activity {
 
 		food.setX(digimon.getX() - food.getWidth());
 		food.setY(digimon.getY() - food.getHeight());
-
-		ObjectAnimator anim1 = ObjectAnimator.ofFloat(food, "y", digimon.getY()
-				+ food.getHeight());
+		
+		ObjectAnimator anim1 = ObjectAnimator.ofFloat(food, "y",
+				digimon.getY() + food.getHeight());
 		anim1.setDuration(1000);
 		anim1.setStartDelay(500);
 		anim1.setInterpolator(new LinearInterpolator());
-
-		ObjectAnimator anim2 = ObjectAnimator.ofFloat(food, "alpha", 0f);
+		
+		ObjectAnimator anim2 = ObjectAnimator.ofFloat(food, "alpha",
+				0f);
 		anim2.setDuration(1500);
 		anim2.setStartDelay(500);
 		anim2.setInterpolator(new LinearInterpolator());
-
-		ObjectAnimator anim3 = ObjectAnimator.ofFloat(digimon, "alpha", 0f);
+		
+		ObjectAnimator anim3 = ObjectAnimator.ofFloat(digimon, "alpha",
+				0f);
 		anim3.setDuration(500);
 		anim3.setStartDelay(500);
 		anim3.setInterpolator(new LinearInterpolator());
-
+		
 		AnimatorSet animatorSet = new AnimatorSet();
 		animatorSet.playSequentially(anim1, anim2, anim3);
 		animatorSet.addListener(new AnimatorListenerAdapter() {
@@ -303,84 +315,93 @@ public class MainActivity extends Activity {
 		});
 		animatorSet.start();
 	}
-
+	
 	private void emotionAnimation(int emotionType) {
 		digimon.setX(layoutSize.x / 2.0f - digimonSize.x / 2.0f);
 		digimon.setY(layoutSize.y * 3.0f / 5.0f - digimonSize.y / 2.0f);
-
+		
 		emotion.setX(digimon.getX() + digimonSize.x);
 		emotion.setY(digimon.getY() - emotion.getHeight());
 		
-		if (emotionType == TRAIN_HAPPY) {
-			Animator anim1 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
-			anim1.setDuration(0);
-			anim1.setStartDelay(emotionFlashDuration);
-
-			Animator anim2 = ObjectAnimator.ofFloat(emotion, "alpha", 1);
-			anim2.setDuration(0);
-			anim2.setStartDelay(emotionFlashDuration);
-
-			Animator anim3 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
-			anim3.setDuration(0);
-			anim3.setStartDelay(emotionFlashDuration);
-
-			Animator anim4 = ObjectAnimator.ofFloat(emotion, "alpha", 1);
-			anim4.setDuration(0);
-			anim4.setStartDelay(emotionFlashDuration);
-
-			Animator anim5 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
-			anim5.setDuration(0);
-			anim5.setStartDelay(emotionFlashDuration);
-
-			Animator anim6 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
-			anim6.setDuration(0);
-			anim6.setStartDelay(emotionFlashDuration);
-
-			ObjectAnimator anim7 = ObjectAnimator.ofFloat(digimon, "alpha", 0f);
-			anim7.setDuration(500);
-			anim7.setStartDelay(500);
-			anim7.setInterpolator(new LinearInterpolator());
-
-			AnimatorSet animatorSet = new AnimatorSet();
-			animatorSet.playSequentially(anim1, anim2, anim3, anim4, anim5,
-					anim6, anim7);
-			animatorSet.addListener(new AnimatorListenerAdapter() {
-				public void onAnimationEnd(Animator animation) {
-					digimon.setAlpha(1.0f);
-					walkAnimation();
-				}
-			});
-			animatorSet.start();
-			
+		emotion.setVisibility(View.VISIBLE);
+		
+		Animator anim1 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
+		anim1.setDuration(0);
+		anim1.setStartDelay(emotionFlashDuration);
+		
+		Animator anim2 = ObjectAnimator.ofFloat(emotion, "alpha", 1);
+		anim2.setDuration(0);
+		anim2.setStartDelay(emotionFlashDuration);
+		
+		Animator anim3 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
+		anim3.setDuration(0);
+		anim3.setStartDelay(emotionFlashDuration);
+		
+		Animator anim4 = ObjectAnimator.ofFloat(emotion, "alpha", 1);
+		anim4.setDuration(0);
+		anim4.setStartDelay(emotionFlashDuration);
+		
+		Animator anim5 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
+		anim5.setDuration(0);
+		anim5.setStartDelay(emotionFlashDuration);
+		
+		Animator anim6 = ObjectAnimator.ofFloat(emotion, "alpha", 0);
+		anim6.setDuration(0);
+		anim6.setStartDelay(emotionFlashDuration);
+		
+		ObjectAnimator anim7 = ObjectAnimator.ofFloat(digimon, "alpha",
+				0f);
+		anim7.setDuration(500);
+		anim7.setStartDelay(500);
+		anim7.setInterpolator(new LinearInterpolator());
+		
+		AnimatorSet animatorSet = new AnimatorSet();
+		animatorSet.playSequentially(anim1, anim2, anim3, anim4, anim5, anim6, anim7);
+		animatorSet.addListener(new AnimatorListenerAdapter() {
+			public void onAnimationEnd(Animator animation) {
+				digimon.setAlpha(1.0f);
+				walkAnimation();
+			}
+		});
+		animatorSet.start();
+		
+		if(emotionType == TRAIN_HAPPY)
 			soundPool.play(successSound, 1.0f, 1.0f, 0, 0, 1.0f);
-		} else {
+		else {
 			soundPool.play(failSound, 1.0f, 1.0f, 0, 0, 1.0f);
-			
-			SystemClock.sleep(emotionFlashDuration);
-			emotion.setImageResource(R.drawable.angry2);
-			SystemClock.sleep(emotionFlashDuration);
-			emotion.setImageResource(R.drawable.angry1);
-			SystemClock.sleep(emotionFlashDuration);
-			emotion.setImageResource(R.drawable.angry2);
-			SystemClock.sleep(emotionFlashDuration);
-			emotion.setImageResource(R.drawable.angry1);
-			SystemClock.sleep(emotionFlashDuration);
-			emotion.setImageResource(R.drawable.angry2);
-			SystemClock.sleep(emotionFlashDuration);
-			emotion.setVisibility(View.GONE);
-			
-			ObjectAnimator anim7 = ObjectAnimator.ofFloat(digimon, "alpha", 0f);
-			anim7.setDuration(500);
-			anim7.setInterpolator(new LinearInterpolator());
-			anim7.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					digimon.setAlpha(1.0f);
-					walkAnimation();
-				}
-			});
-			anim7.start();
 		}
+	}
+	
+	private void drawShit() {
+		int shitCount = 2;
+		
+		ImageView shit1 = (ImageView) findViewById(R.id.shit1);
+		ImageView shit2 = (ImageView) findViewById(R.id.shit2);
+		
+		switch (shitCount) {
+		case 0:
+			shit1.setVisibility(View.INVISIBLE);
+			shit2.setVisibility(View.INVISIBLE);
+			break;
+			
+		case 1:
+			shit1.setVisibility(View.VISIBLE);
+			shit2.setVisibility(View.INVISIBLE);
+			break;
+			
+		case 2:
+			shit1.setVisibility(View.VISIBLE);
+			shit2.setVisibility(View.VISIBLE);
+			break;
+
+		default:
+			break;
+		}
+		
+		if(shitCount == 0)
+			shitPadding = 0;
+		else
+			shitPadding = animatePadding + shit1.getWidth();
 	}
 
 	// buttons callback
@@ -393,9 +414,50 @@ public class MainActivity extends Activity {
 		Intent intent = new Intent(this, FeedActivity.class);
 		startActivityForResult(intent, FEED_REQUEST_CODE);
 	}
-
+	
 	public void trainButtonPressed(View view) {
 		Intent intent = new Intent(this, TrainActivity.class);
 		startActivityForResult(intent, TRAIN_REQUEST_CODE);
+	}
+	
+	public void cleanButtonPressed(View view) {
+		stopAnimation();
+		
+		digimon.setX(layoutSize.x / 2.0f - digimonSize.x / 2.0f);
+		digimon.setY(layoutSize.y * 3.0f / 5.0f - digimonSize.y / 2.0f);
+		
+		water = (ImageView) findViewById(R.id.water);
+		water.setY(layoutSize.y);
+		water.setVisibility(View.VISIBLE);
+		
+		Animator anim1 = ObjectAnimator.ofFloat(water, "y", 0);
+		anim1.setDuration(1000);
+		anim1.addListener(new AnimatorListenerAdapter() {
+			public void onAnimationEnd(Animator animation) {
+				ObjectAnimator anim7 = ObjectAnimator.ofFloat(water, "alpha",
+						0f);
+				anim7.setDuration(500);
+				anim7.setStartDelay(500);
+				anim7.addListener(new AnimatorListenerAdapter() {
+					public void onAnimationEnd(Animator animation) {
+						water.setVisibility(View.GONE);
+						emotion.setImageResource(R.drawable.happy);
+						emotionAnimation(TRAIN_HAPPY);
+					}
+				});
+				anim7.start();
+			}
+		});
+		
+		anim1.start();
+	}
+	
+	public void lightButtonPressed(View view) {
+		RelativeLayout light = (RelativeLayout) findViewById(R.id.light);
+		if(light.getVisibility() == View.VISIBLE)
+			light.setVisibility(View.INVISIBLE);
+		else {
+			light.setVisibility(View.VISIBLE);
+		}
 	}
 }

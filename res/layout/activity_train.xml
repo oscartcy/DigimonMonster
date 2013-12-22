@@ -104,7 +104,7 @@
         android:visibility="invisible" >
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/shit1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

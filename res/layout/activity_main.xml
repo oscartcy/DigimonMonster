@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
-    
+
     <RelativeLayout
         android:id="@+id/Field"
         android:layout_width="match_parent"
@@ -13,8 +13,8 @@
             android:id="@+id/background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
             android:alpha="0.5"
+            android:scaleType="centerCrop"
             android:src="@drawable/grass_field" />
 
         <ImageView
@@ -26,6 +26,42 @@
             android:layout_marginLeft="40dp"
             android:src="@drawable/digi_0001" />
 
+        <ImageView
+            android:id="@+id/shit1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/shit2"
+            android:layout_below="@+id/shit2"
+            android:src="@drawable/shit"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/shit2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="51dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/shit"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/water"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/water"
+            android:visibility="invisible" />
+
+        <RelativeLayout
+            android:id="@+id/light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:visibility="invisible" >
+        </RelativeLayout>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -36,39 +72,47 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
 
-        <Button
+        <ImageButton
             android:id="@+id/stat_name"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Stat"
             android:onClick="statButtonPressed"
+            android:text="Stat"
+            android:src="@drawable/menu_stat"
+            android:background="@null"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
+        <ImageButton
             android:id="@+id/stat_age"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Feed"
             android:onClick="feedButtonPressed"
+            android:text="Feed"
+            android:src="@drawable/menu_feed"
+            android:background="@null"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
+        <ImageButton
             android:id="@+id/stat_weight"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Train"
             android:onClick="trainButtonPressed"
+            android:text="Train"
+            android:src="@drawable/menu_train"
+            android:background="@null"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
+        <ImageButton
             android:id="@+id/stat_hunger"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Battle"
+            android:src="@drawable/menu_battle"
+            android:background="@null"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
@@ -78,28 +122,47 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" >
 
-        <TextView
+        <ImageButton
             android:id="@+id/TextView02"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:onClick="cleanButtonPressed"
             android:text="Clean"
+            android:src="@drawable/menu_clean"
+            android:background="@null"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
+        <ImageButton
             android:id="@+id/TextView01"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Light"
+            android:src="@drawable/menu_light"
+            android:background="@null"
+            android:onClick="lightButtonPressed"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <TextView
+        <ImageButton
             android:id="@+id/TextView04"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Call"
+            android:src="@drawable/menu_call"
+            android:background="@null"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+                <ImageButton
+            android:id="@+id/TextView02"
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Setting"
+            android:src="@drawable/menu_setting"
+            android:background="@null"
             android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
+
 </RelativeLayout>
