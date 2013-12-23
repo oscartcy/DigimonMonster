@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="110dp"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="170dp"
             android:text="3"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="100dp" />

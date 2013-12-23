@@ -269,6 +269,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		if(!canPressButton)
+			return false;
+		
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
 				.getMenuInfo();
 		switch (item.getItemId()) {
