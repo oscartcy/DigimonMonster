@@ -105,16 +105,6 @@
             android:src="@drawable/menu_train"
             android:text="Train"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
-        <ImageButton
-            android:id="@+id/stat_hunger"
-            android:layout_width="0px"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@null"
-            android:src="@drawable/menu_battle"
-            android:text="Battle"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout

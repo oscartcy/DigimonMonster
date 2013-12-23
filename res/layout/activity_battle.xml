@@ -61,41 +61,27 @@
             android:visibility="invisible" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/train_superhit"
+    <LinearLayout
+        android:id="@+id/battle_monsters"
+        android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible" >
+        android:layout_height="match_parent" >
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/superhit" />
-
-        <TextView
-            android:id="@+id/train_hit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="110dp"
-            android:layout_marginTop="160dp"
-            android:text="3"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textSize="100dp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/train_megahit"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible" >
+            android:id="@+id/digimon1"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/digi_0001" />
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/megahit" />
-    </RelativeLayout>
+            android:id="@+id/digimon2"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/digi_0001" />
+    </LinearLayout>
 
 </RelativeLayout>

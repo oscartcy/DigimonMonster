@@ -38,7 +38,7 @@ public class StatActivity extends Activity {
 		textView.setText("Hunger: " +  Integer.toString(digimonModel.getHunger()) +" / 4");
 		
 		textView = (TextView) findViewById(R.id.stat_strength);
-		textView.setText("Strength" + Integer.toString(digimonModel.getStrength()) +" / 4");
+		textView.setText("Strength: " + Integer.toString(digimonModel.getStrength()) +" / 4");
 		
 		textView = (TextView) findViewById(R.id.stat_type);
 		textView.setText("Level: "+ digimonModel.getLevel());

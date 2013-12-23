@@ -19,7 +19,6 @@ import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,17 +26,15 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-public class TrainActivity extends Activity {
+public class BattleActivity extends Activity {
 	private RelativeLayout field;
 	private Vibrator vibrator;
 	
 	private boolean firstTime = true;
 	private boolean train=false;
-	
-	private int megaCount = 0;
 	
 	//sensor
 	private SensorManager mSensorManager;
@@ -62,7 +59,11 @@ public class TrainActivity extends Activity {
 	private int superHitSound;
 	private int megaHitSound;
 	private int shakeSound;
+	private int battleSound;
 	LinkedList<Boolean> powers;
+	
+	//QR Code
+	private static final int CAPTURE_QR_ACTIVITY_REQUEST_CODE = 123;
 	
 	private DigimonMonster app;
 	protected Digimon digimonModel;
@@ -105,7 +106,7 @@ public class TrainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_train);
+		setContentView(R.layout.activity_battle);
 		
 		//initial field
 		field = (RelativeLayout) findViewById(R.id.train_field);
@@ -123,7 +124,7 @@ public class TrainActivity extends Activity {
 	    vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 	    
 	    //initial sound
-	    soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 100);
+	    soundPool = new SoundPool(6, AudioManager.STREAM_MUSIC, 100);
 	    soundPool.setOnLoadCompleteListener(new OnLoadCompleteListener() {
 			
 			@Override
@@ -139,6 +140,7 @@ public class TrainActivity extends Activity {
 	    superHitSound = soundPool.load(this,  R.raw.e05, 1);
 	    megaHitSound = soundPool.load(this,  R.raw.e06, 1);
 	    shakeSound = soundPool.load(this,  R.raw.e19, 1);
+	    battleSound = soundPool.load(this, R.raw.e13, 1);
 	    
 	    //initial image
 	    DigimonMonster app = (DigimonMonster) getApplicationContext();
@@ -161,6 +163,17 @@ public class TrainActivity extends Activity {
 	protected void onPause() {
 		mSensorManager.unregisterListener(mSensorListener);
 		super.onPause();
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == CAPTURE_QR_ACTIVITY_REQUEST_CODE) {
+			if (resultCode == RESULT_OK) {
+				String resultQR = data.getStringExtra("result");
+				
+				showMonster();
+			}
+		}
 	}
 	
 	@Override
@@ -222,26 +235,53 @@ public class TrainActivity extends Activity {
 		
 		for (int i=0;i<5;i++)
 		{
-			if (rand.nextDouble() > probability){
+			if (rand.nextDouble()>probability)
 				powers.add(Boolean.valueOf(true));
-				megaCount++;
-			}else
+			else
 				powers.add(Boolean.valueOf(false));
 		}
 		
-		ImageView digimon = (ImageView) findViewById(R.id.digimon);
+		Intent intent = new Intent(this, QRCameraActivity.class);
+		startActivityForResult(intent,
+				CAPTURE_QR_ACTIVITY_REQUEST_CODE);
 		
-		float fieldWidth = field.getWidth();
-		float fieldHeight = field.getHeight();
+//		ImageView digimon = (ImageView) findViewById(R.id.digimon);
+//		
+//		float fieldWidth = field.getWidth();
+//		float fieldHeight = field.getHeight();
+//		
+//		digimon.setX(fieldWidth * 3 / 4 - digimon.getWidth() / 2.0f);
+//		digimon.setY(fieldHeight / 2 - digimon.getHeight() / 2.0f);
+//
+//		digimon.setVisibility(View.VISIBLE);
+//		
+//		SystemClock.sleep(1000);
+//		
+//		fire();
+	}
+	
+	private void showMonster() {
+		ImageView monster1 = (ImageView) findViewById(R.id.digimon1);
+		monster1.setImageResource(R.drawable.digi_0001);
+		ImageView monster2 = (ImageView) findViewById(R.id.digimon2);
+		monster2.setImageResource(R.drawable.digi_1000);
 		
-		digimon.setX(fieldWidth * 3 / 4 - digimon.getWidth() / 2.0f);
-		digimon.setY(fieldHeight / 2 - digimon.getHeight() / 2.0f);
-
-		digimon.setVisibility(View.VISIBLE);
+		LinearLayout layout = (LinearLayout) findViewById(R.id.battle_monsters);
+		layout.setVisibility(View.VISIBLE);
+		layout.setAlpha(1.0f);
 		
-		SystemClock.sleep(1000);
+		ObjectAnimator anim1 = ObjectAnimator.ofFloat(layout, "alpha", 0f);
+		anim1.setDuration(1000);
+		anim1.setStartDelay(3000);
+		anim1.setInterpolator(new LinearInterpolator());
+		anim1.addListener(new AnimatorListenerAdapter() {
+			public void onAnimationEnd(Animator animation) {
+				fire();
+			}
+		});
+		anim1.start();
 		
-		fire();
+		soundPool.play(battleSound, 1.0f, 1.0f, 0, 2, 1.0f);
 	}
 	
 	private void fire() {
@@ -311,13 +351,7 @@ public class TrainActivity extends Activity {
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.train_layout);
 		layout.setVisibility(View.INVISIBLE);
 		
-		if(megaCount == 5)
-			layout = (RelativeLayout) findViewById(R.id.train_megahit);
-		else {
-			layout = (RelativeLayout) findViewById(R.id.train_superhit);
-			TextView textView = (TextView) findViewById(R.id.train_hit);
-			textView.setText(String.valueOf(megaCount));
-		}
+		layout = (RelativeLayout) findViewById(R.id.train_megahit);
 		layout.setVisibility(View.VISIBLE);
 		layout.setOnTouchListener(new OnTouchListener() {
 			
@@ -330,15 +364,11 @@ public class TrainActivity extends Activity {
 	}
 	
 	private void endTraining() {
-		if (megaCount >= 3)
+		if (train)
 			setResult(MainActivity.TRAIN_HAPPY, new Intent());
 		else
 			setResult(MainActivity.TRAIN_UNHAPPY, new Intent());
 		train=false;
 		finish();
-	}
-	
-	@Override
-	public void onBackPressed() {
 	}
 }

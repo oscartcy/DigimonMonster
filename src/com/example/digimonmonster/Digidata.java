@@ -10,7 +10,7 @@ public class Digidata {
 	protected int HP;
 	protected int[] nextDigimon;
 
-	public Digidata(int id, String name, String attritube, String level,
+	public Digidata(int id, String name, String level, String attritube,
 			int[] nextDigimon,int basicPower,int HP) {
 		this.id = id;
 		this.name = name;

@@ -6,8 +6,9 @@
     <item
         android:id="@+id/goSleep"
         android:title="Sleep / Wakeup"/>
-    <item
-        android:id="@+id/evoBaby1"
-        android:title="Evo: Baby1"/>
+    
+        <item
+        android:id="@+id/misscall"
+        android:title="Miss Call +4"/>
 
 </menu>

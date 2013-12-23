@@ -63,6 +63,8 @@ public class MainActivity extends Activity {
 	public final static int TRAIN_REQUEST_CODE = 20;
 	public final static int TRAIN_HAPPY = 21;
 	public final static int TRAIN_UNHAPPY = 22;
+	
+	public final static int BATTLE_REQUEST_CODE = 30;
 
 	private int animationCode = 0;
 
@@ -105,7 +107,7 @@ public class MainActivity extends Activity {
 		field.addView(sleep);
 
 		// initial sound
-		soundPool = new SoundPool(2, AudioManager.STREAM_MUSIC, 100);
+		soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 100);
 		successSound = soundPool.load(this, R.raw.e07, 1);
 		failSound = soundPool.load(this, R.raw.e08, 1);
 		evoSound = soundPool.load(this, R.raw.e11, 1);
@@ -114,7 +116,7 @@ public class MainActivity extends Activity {
 		app = (DigimonMonster) getApplicationContext();
 		lbm = LocalBroadcastManager.getInstance(app);
 
-		app.setDigimon(new Digimon());
+		app.setDigimon(new Digimon(getApplicationContext()));
 		digimonModel = app.getDigimon();
 
 		Intent intent = new Intent(this, DigimonService.class);
@@ -153,6 +155,7 @@ public class MainActivity extends Activity {
 		lbm.unregisterReceiver(sleepReceiver);
 		lbm.unregisterReceiver(misscallReceiver);
 		lbm.unregisterReceiver(shitReceiver);
+		stopAnimation();
 
 		super.onPause();
 	}
@@ -277,13 +280,17 @@ public class MainActivity extends Activity {
 			digimonModel.setSleep(!digimonModel.getSleep());
 			return true;
 			
-		case R.id.evoBaby1:
-			Digidatabase database = new Digidatabase(app);
-			database.readDatabse("Digidatabase.txt");
-			database.toBABYI(app.getDigimon());
-			
-			stopAnimation();
-			evolutionAnimation();
+		case R.id.misscall:
+//			Digidatabase database = new Digidatabase(app);
+//			database.readDatabse("Digidatabase.txt");
+//			database.toBABYI(app.getDigimon());
+//			
+//			stopAnimation();
+//			evolutionAnimation();
+			digimonModel.addMissCall();
+			digimonModel.addMissCall();
+			digimonModel.addMissCall();
+			digimonModel.addMissCall();
 			return true;
 
 		default:
@@ -303,7 +310,10 @@ public class MainActivity extends Activity {
 
 		drawShit();
 
-		digimon.setImageResource(digimonModel.getPhoto());
+		//digimon.setImageResource(digimonModel.getPhoto());
+		digimon.setImageBitmap(flipImage(BitmapFactory
+				.decodeResource(getResources(),
+						digimonModel.getPhoto())));
 		digimon.setX(animatePadding);
 		digimon.setY(layoutSize.y / 2.0f - digimonSize.y / 2.0f);
 
@@ -335,9 +345,10 @@ public class MainActivity extends Activity {
 		animatorSet.addListener(new AnimatorListenerAdapter() {
 			public void onAnimationEnd(Animator animation) {
 				if (!endAnimation) {
-					digimon.setImageBitmap(flipImage(BitmapFactory
-							.decodeResource(getResources(),
-									digimonModel.getPhoto())));
+//					digimon.setImageBitmap(flipImage(BitmapFactory
+//							.decodeResource(getResources(),
+//									digimonModel.getPhoto())));
+					digimon.setImageResource(digimonModel.getPhoto());
 					ObjectAnimator anim11 = ObjectAnimator.ofFloat(digimon,
 							"y", layoutSize.y / 4.0f - digimonSize.y / 2.0f);
 					anim11.setDuration(100);
@@ -634,6 +645,21 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
+	public void battleButtonPressed(View view) {
+		if (canPressButton
+				&& digimonModel.getLevel().compareTo("Digitama") != 0) {
+			if (digimonModel.canTrain()) {
+				checkSleep();
+				Intent intent = new Intent(this, BattleActivity.class);
+				startActivityForResult(intent, BATTLE_REQUEST_CODE);
+			} else {
+				stopAnimation();
+				emotion.setImageResource(R.drawable.angry1);
+				emotionAnimation(TRAIN_UNHAPPY);
+			}
+		}
+	}
 
 	public void cleanButtonPressed(View view) {
 		if (canPressButton) {
@@ -717,13 +743,9 @@ public class MainActivity extends Activity {
 	}
 	
 	public void koMissCall(){
-		if (digimonModel.getStrength()!=0 || digimonModel.getShit() ==0 || digimonModel.getHunger()!=0 )
+		if (digimonModel.getStrength()!=0 && digimonModel.getShit() ==0 && digimonModel.getHunger()!=0 )
 		{
 			app.setMissCall(false);
-			ImageButton call = (ImageButton) findViewById(R.id.call_button);
-			call.setAlpha(1.0f);
-		}
-		else{
 			ImageButton call = (ImageButton) findViewById(R.id.call_button);
 			call.setAlpha(0.3f);
 		}
@@ -772,9 +794,15 @@ public class MainActivity extends Activity {
 			public void onReceive(Context context, Intent intent) {
 				// misscall
 				Log.d("DEBUG", "This is MISSCALL.");
+				ImageButton call = (ImageButton) findViewById(R.id.call_button);
+				call.setAlpha(1.0f);
 			}
 		};
 
 		lbm.registerReceiver(misscallReceiver, new IntentFilter("misscall"));
+	}
+	
+	@Override
+	public void onBackPressed() {
 	}
 }

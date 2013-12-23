@@ -43,13 +43,13 @@ public class DigimonService extends Service {
 	static final int ShitDelay = 20 * min;
 	static final int ShitPeriod = 40 * min;
 
-	static final int HungerDelay = 2 * min;
+	static final int HungerDelay = 40000;
 	static final int HungerPeriod = 30 * min;
 
-	static final int StrengthDelay = 50 * min;
+	static final int StrengthDelay = 1 * min;
 	static final int StrengthPeriod = 50 * min;
 
-	static final int MissCallDelay = 10 * min;
+	static final int MissCallDelay = 1 * min;
 	static final int MissCallDuration = 20 * min;
 
 	static final int SleepDuration = 60 * min * 12;
@@ -217,7 +217,8 @@ public class DigimonService extends Service {
 			public void run() {
 				timerHandler.sendEmptyMessage(0);
 			}
-		}, 100, min);
+			// }, 100, min);
+		}, 100, 1000);
 	}
 
 	private void startSleeping() {
@@ -243,7 +244,7 @@ public class DigimonService extends Service {
 	private void checkDeath() {
 		if (app.getDigimon().getStrength() == 0
 				&& app.getDigimon().getHunger() == 0
-				&& app.getDigimon().getShit() == 7) {
+				&& app.getDigimon().getShit() == 2) {
 			Thread t = new Thread() {
 				boolean deathflag = true;
 
@@ -251,7 +252,7 @@ public class DigimonService extends Service {
 					for (int i = 0; i < 30; i++) {
 						if (app.getDigimon().getStrength() == 0
 								&& app.getDigimon().getHunger() == 0
-								&& app.getDigimon().getShit() == 7) {
+								&& app.getDigimon().getShit() == 2) {
 							try {
 								Thread.sleep(min);
 							} catch (InterruptedException e) {
@@ -289,28 +290,32 @@ public class DigimonService extends Service {
 			minutes = minutes % 60;
 
 			// check evolution send broadcast
-			if (minutes == 1
+			// if (minutes == 1
+			if (seconds > 5
 					&& app.getDigimon().getLevel().compareTo("Digitama") == 0) {
 				database.toBABYI(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
-			if (hours == 1
-					&& app.getDigimon().getLevel().compareTo("Baby I") == 0) {
+			// if (hours == 1
+			if (seconds > 30
+					&& app.getDigimon().getLevel().compareTo("BabyI") == 0) {
 				database.toBABYII(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
-			if (hours == 10
-					&& app.getDigimon().getLevel().compareTo("Baby II") == 0) {
+			// if (hours == 10
+			if (minutes == 1
+					&& app.getDigimon().getLevel().compareTo("BabyII") == 0) {
 				database.childEvolution(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
-			if (hours == 48
+			//if (hours == 48
+			if (seconds > 30
 					&& app.getDigimon().getLevel().compareTo("Child") == 0) {
 				database.adultEvolution(app.getDigimon());
 				Intent i = new Intent("evolution");
