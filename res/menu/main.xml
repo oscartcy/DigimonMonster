@@ -1,8 +1,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <item android:id="@+id/addShit"
-          android:title="Add Shit" />
-    <item android:id="@+id/goSleep"
-          android:title="Sleep / Wakeup" />    
+    <item
+        android:id="@+id/addShit"
+        android:title="Add Shit"/>
+    <item
+        android:id="@+id/goSleep"
+        android:title="Sleep / Wakeup"/>
+    <item
+        android:id="@+id/evoBaby1"
+        android:title="Evo: Baby1"/>
 
 </menu>

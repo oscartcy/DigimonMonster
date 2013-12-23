@@ -3,6 +3,7 @@ package com.example.digimonmonster;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class StatActivity extends Activity {
@@ -45,5 +46,7 @@ public class StatActivity extends Activity {
 		textView = (TextView) findViewById(R.id.stat_dp);
 		textView.setText("DP: " +Double.toString(digimonModel.getDP()) +" / 20");
 		
+		ImageView image = (ImageView) findViewById(R.id.stat_image);
+		image.setImageResource(digimonModel.getPhoto());
 	}
 }

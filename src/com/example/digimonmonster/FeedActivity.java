@@ -23,6 +23,9 @@ public class FeedActivity extends Activity {
 		app = (DigimonMonster) getApplicationContext();
 		digimonModel=app.getDigimon();
 		
+		ImageView image = (ImageView) findViewById(R.id.feed_image);
+		image.setImageResource(digimonModel.getPhoto());
+		
 		LinearLayout layout = (LinearLayout) findViewById(R.id.meat_layout);
 		layout.setOnClickListener(new OnClickListener() {
 			

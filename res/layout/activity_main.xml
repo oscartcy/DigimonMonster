@@ -146,13 +146,14 @@
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton
-            android:id="@+id/TextView04"
+            android:id="@+id/call_button"
             android:layout_width="0px"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
             android:src="@drawable/menu_call"
             android:text="Call"
+            android:alpha="0.3"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageButton

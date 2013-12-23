@@ -1,0 +1,15 @@
+id		name			level		attritube			nextDigimonID					basicpower		health
+1000	Botamon			BabyI		null				2000							30				100			
+2000	Koromon			BabyII		null				3001,3002						70				150
+3001	Augmon			Child		Vaccine				4001,4002,4003,4004,4007		120				250
+3002	Betamon			Child		Virus				4003,4004,4005,4006,4007		110				280
+4001	Greymon			Adult		Vaccine				5001							180				260
+4002	Tyrannomon		Adult		Data				5002							170				240
+4003	Devimon			Adult		Virus				5001							175				250
+4004	Meramon			Adult		Data				5002							165				290
+4005	Airdramon		Adult		Vaccine				5001							180				250
+4006	Seadramon		Adult		Data				5002							170				270
+4007	Numemon			Adult		Virus				5003							175				275
+5001	MetalGreymon	Perfect		Vaccine				9999							250				400
+5002	Mamenon			Perfect		Data				9999							240				420
+5003	Monzaemon		Perfect		Vaccine				9999							230				410

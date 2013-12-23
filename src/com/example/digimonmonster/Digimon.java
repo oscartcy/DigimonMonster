@@ -14,10 +14,15 @@ public class Digimon {
 	private int hunger;
 	private int strength;
 	private int basicpower;
+	private int HP;
+	private int id;
 	// Attritube =Vaccine,Data,Virus
 	private String attritube;
-	//level = Digitama,Baby I,Baby II,Child,Adult,Perfect,Ultimate
+	//level = Digitama,BabyI,BabyII,Child,Adult,Perfect,Ultimate
 	private String level;
+	
+	private int numofBattle;
+	private int numofWin;
 	
 	
 	// location of photo
@@ -31,6 +36,7 @@ public class Digimon {
 	private boolean sick;
 	private int misscall;
 
+
 	private int trainCount;
 	private int trainSuccess;
 
@@ -40,12 +46,17 @@ public class Digimon {
 	static int childCount=20;
 	static int adultCount=25;
 
+	
+
+
+	
 
 public Digimon()
 {
 	this.age=0;
 	this.level="Digitama";
 	this.photo=R.drawable.digi_0001;
+	this.id=0;
 	this.weight=20;
 	this.sleep=false;
 	this.light=true;
@@ -53,11 +64,32 @@ public Digimon()
 	this.hunger=0;
 	this.strength=0;
 	this.basicpower=0;
+	this.HP=0;
 	this.sick=false;
 	this.misscall=0;
 	this.name="Egg";
 	this.trainCount=0;
 	this.trainSuccess=0;
+	this.numofBattle=0;
+	this.numofWin=0;
+	
+}
+
+public int getNumofBattle(){
+	return numofBattle;
+}
+
+public int getNumofWin(){
+	return numofWin;	
+}
+
+public void addNumofBattle(){
+	numofBattle++;
+}
+
+
+public void addNumofWin(){
+	numofWin++;
 }
 
 public String getAttritube(){
@@ -67,6 +99,9 @@ public String getAttritube(){
 		return trainCount;
 	}
 	
+	public int getID(){
+		return id;
+	}
 	public int getTrainSuccess(){
 		return trainSuccess;
 	}
@@ -128,14 +163,15 @@ public String getAttritube(){
 		DP=20.0;
 	}
 	
-	public void evolution(String level,String attritube,String name,int photo,int basicpower)
+	public void evolution(Digidata digi)
 	{
-		this.level=level;
-		if (attritube!=null)
-			this.attritube=attritube;
-		this.name=name;
-		this.photo=R.drawable.digi_1000;
-		this.basicpower=basicpower;
+		this.id=digi.id;
+		this.basicpower=digi.id;
+		this.HP=digi.HP;
+		this.name=digi.name;
+		if (digi.attritube!=null)
+			this.attritube=digi.attritube;
+		this.level=digi.level;
 	}
 	
 	
@@ -255,48 +291,55 @@ public String getAttritube(){
 		else
 			return true;
 	}
-	public boolean train(int count)
+	
+	public double train(int count)
 	{
 		
+		double probability=0;
 		boolean success=false;
+		int requiredCount=0;
 		trainCount++;
 	    hunger--;
 	    DP=DP-1;
 	    weight=weight-5;
-	    if (level.compareTo("Baby I")==0)
+
+	    if (level.compareTo("BabyI")==0)
 	    {
+	    	requiredCount=babyICount;
+	    }
+	    if (level.compareTo("BabyII")==0)
+	    {
+	    	requiredCount=babyIICount;
+	    }
+	    if (level.compareTo("Child")==0)
+	    {
+	    	requiredCount=childCount;
 	    }
 	    
+	    if (level.compareTo("Adult")==0)
+	    {
+	    	requiredCount=adultCount;
+	    }
 	    
-	    
-	    return success;
-	}
-	
-	public boolean train(boolean success)
-	{ 
-		trainCount++;
-	    hunger--;
-	    DP=DP-1;
-	    if (weight>10)
-	    	weight=weight-10;
-	    else
-	    	weight=0;
+	    probability=0.05+Math.abs(requiredCount-count)/50.0;
+	    if (probability<0.2)
+	    	success=true;
 	    if (success)
 	    {
 	    	trainSuccess++;
 	    	if (strength<=3)
 	    		strength++;
-	    	return true;
 	    }
 	    else
 	    {
 	    	if (strength>0)
 	    		strength--;
-	    	return false;
 	    }
-	    	
-	    
+	    return probability;
+
 	}
+	
+
 }
 
 

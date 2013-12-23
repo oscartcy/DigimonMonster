@@ -18,9 +18,9 @@
         android:layout_alignParentTop="true" >
 
         <ImageView
-            android:id="@+id/train_ready"
+            android:id="@+id/feed_image"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="150dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:src="@drawable/digi_0001" />
@@ -46,7 +46,7 @@
                     android:src="@drawable/arrow" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/digimon2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"

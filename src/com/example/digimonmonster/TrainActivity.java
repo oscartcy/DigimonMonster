@@ -1,6 +1,7 @@
 package com.example.digimonmonster;
 
 import java.util.LinkedList;
+import java.util.Random;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -33,6 +34,7 @@ public class TrainActivity extends Activity {
 	private Vibrator vibrator;
 	
 	private boolean firstTime = true;
+	private boolean train=false;
 	
 	//sensor
 	private SensorManager mSensorManager;
@@ -58,6 +60,9 @@ public class TrainActivity extends Activity {
 	private int megaHitSound;
 	private int shakeSound;
 	LinkedList<Boolean> powers;
+	
+	private DigimonMonster app;
+	protected Digimon digimonModel;
 
 	private final SensorEventListener mSensorListener = new SensorEventListener() {
 
@@ -102,6 +107,9 @@ public class TrainActivity extends Activity {
 		//initial field
 		field = (RelativeLayout) findViewById(R.id.train_field);
 		
+		app = (DigimonMonster) getApplicationContext();
+		digimonModel=app.getDigimon();
+		
 		//initial sensor
 	    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 	    mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
@@ -128,6 +136,18 @@ public class TrainActivity extends Activity {
 	    superHitSound = soundPool.load(this,  R.raw.e05, 1);
 	    megaHitSound = soundPool.load(this,  R.raw.e06, 1);
 	    shakeSound = soundPool.load(this,  R.raw.e19, 1);
+	    
+	    //initial image
+	    DigimonMonster app = (DigimonMonster) getApplicationContext();
+		Digimon digimonModel=app.getDigimon();
+		int photo = digimonModel.getPhoto();
+		
+	    ImageView image = (ImageView) findViewById(R.id.digimon);
+	    image.setImageResource(photo);
+	    image = (ImageView) findViewById(R.id.digimon2);
+	    image.setImageResource(photo);
+	    image = (ImageView) findViewById(R.id.digimon3);
+	    image.setImageResource(photo);
 	}
 
 	@Override
@@ -192,12 +212,22 @@ public class TrainActivity extends Activity {
 		ImageView image = (ImageView) findViewById(R.id.train_count);
 		image.setVisibility(View.GONE);
 		
+		//gen power
+		double probability=digimonModel.train(shakeCounter);
+
+		if (probability<0.2)
+			train=true;
+		
 		powers = new LinkedList<Boolean>();
-		powers.add(Boolean.valueOf(true));
-		powers.add(Boolean.valueOf(true));
-		powers.add(Boolean.valueOf(false));
-		powers.add(Boolean.valueOf(true));
-		powers.add(Boolean.valueOf(false));
+		Random rand = new Random();
+		
+		for (int i=0;i<5;i++)
+		{
+			if (rand.nextDouble()>probability)
+				powers.add(Boolean.valueOf(true));
+			else
+				powers.add(Boolean.valueOf(false));
+		}
 		
 		ImageView digimon = (ImageView) findViewById(R.id.digimon);
 		
@@ -294,8 +324,11 @@ public class TrainActivity extends Activity {
 	}
 	
 	private void endTraining() {
-		//setResult(MainActivity.TRAIN_HAPPY, new Intent());
-		setResult(MainActivity.TRAIN_UNHAPPY, new Intent());
+		if (train)
+			setResult(MainActivity.TRAIN_HAPPY, new Intent());
+		else
+			setResult(MainActivity.TRAIN_UNHAPPY, new Intent());
+		train=false;
 		finish();
 	}
 }

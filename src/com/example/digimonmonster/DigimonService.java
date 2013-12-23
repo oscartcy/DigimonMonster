@@ -31,10 +31,11 @@ public class DigimonService extends Service {
 	protected TimerHandler timerHandler;
 	protected LocalBroadcastManager lbm;
 	protected BroadcastReceiver mReceiver;
+	protected Digidatabase database;
 
 	boolean sleepInterrupt = false;
 	boolean todaySleep = false;
-
+	boolean perfectTried;
 	private final IBinder mBinder = new LocalBinder();
 
 	static final int min = 60000;
@@ -67,6 +68,10 @@ public class DigimonService extends Service {
 	public void onCreate() {
 		app = (DigimonMonster) getApplicationContext();
 		lbm = LocalBroadcastManager.getInstance(app);
+
+		perfectTried = false;
+		database = new Digidatabase(app);
+		database.readDatabse("Digidatabase.txt");
 
 		startTimer();
 		startShitTimer();
@@ -188,19 +193,18 @@ public class DigimonService extends Service {
 		// no matter what also sd intent to activity
 		Intent i = new Intent("misscall");
 		lbm.sendBroadcast(i);
+		app.setMissCall(true);
+		for (int k = 0; k < 40; k++) {
 
-		try {
-			Thread.sleep(MissCallDuration);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			try {
+				Thread.sleep(min / 2);
+			} catch (InterruptedException x) {
+			}
+			if (app.getMissCall() == false)
+				return;
 		}
+		app.getDigimon().addMissCall();
 
-		if (reason == 1 && app.getDigimon().getShit() > 0)
-			app.getDigimon().addMissCall();
-		if (reason == 2 && app.getDigimon().getHunger() == 0)
-			app.getDigimon().addMissCall();
-		if (reason == 3 && app.getDigimon().getStrength() == 0)
-			app.getDigimon().addMissCall();
 	}
 
 	private void startTimer() {
@@ -213,7 +217,7 @@ public class DigimonService extends Service {
 			public void run() {
 				timerHandler.sendEmptyMessage(0);
 			}
-		}, 15000 , min);
+		}, 100, min);
 	}
 
 	private void startSleeping() {
@@ -285,37 +289,41 @@ public class DigimonService extends Service {
 			minutes = minutes % 60;
 
 			// check evolution send broadcast
-			//if (minutes == 1
-			if ((minutes == 0 && seconds > 10)
+			if (minutes == 1
 					&& app.getDigimon().getLevel().compareTo("Digitama") == 0) {
-				app.getDigimon().evolution("Baby I", null, "AAA", 2, 30);
+				database.toBABYI(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
 			if (hours == 1
 					&& app.getDigimon().getLevel().compareTo("Baby I") == 0) {
-				app.getDigimon().evolution("Baby II", null, "BBB", 3, 70);
+				database.toBABYII(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
 			if (hours == 10
 					&& app.getDigimon().getLevel().compareTo("Baby II") == 0) {
-				childEvolution();
+				database.childEvolution(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
-			if (hours == 24
+			if (hours == 48
 					&& app.getDigimon().getLevel().compareTo("Child") == 0) {
-				adultEvolution();
+				database.adultEvolution(app.getDigimon());
 				Intent i = new Intent("evolution");
 				lbm.sendBroadcast(i);
 			}
 
 			if (hours != 0 && hours % 24 == 0)
 				app.getDigimon().increaseAge();
+
+			if (app.getDigimon().getAge() >= 5 && perfectTried == false) {
+				database.perfectEvolution(app.getDigimon());
+				perfectTried = true;
+			}
 
 			// check death
 			checkDeath();
@@ -338,54 +346,4 @@ public class DigimonService extends Service {
 		}
 	}
 
-	// Attritube =Vaccine,Data,Virus
-	public void childEvolution() {
-		int misscall = app.getDigimon().getMissCall();
-
-		if (misscall <= 1)
-			app.getDigimon().evolution("Child", "Vaccine", "ABCD", 6, 100);
-		else if (misscall > 2 && misscall <= 4)
-			app.getDigimon().evolution("Child", "Data", "ABEECD", 7, 80);
-		else
-			app.getDigimon().evolution("Child", "Virus", "ABEECD", 8, 70);
-	}
-
-	public void adultEvolution() {
-		int traincount = app.getDigimon().getTrainCount();
-		int trainsuccess = app.getDigimon().getTrainSuccess();
-		int misscall = app.getDigimon().getMissCall();
-		String attritube = app.getDigimon().getAttritube();
-
-		if (attritube.compareTo("Vaccine") == 0) {
-			if (traincount >= 40 && traincount - trainsuccess <= 2
-					&& misscall <= 2)
-				app.getDigimon().evolution("Adult", "Vaccine", "ABCDDDD", 9,
-						200);
-			else if (traincount > 30 && traincount < 40)
-				app.getDigimon().evolution("Adult", "Vaccine", "ABDD", 10, 160);
-			else
-				app.getDigimon().evolution("Adult", "Data", "ABCC", 11, 150);
-		} else if (attritube.compareTo("Data") == 0) {
-			if (traincount >= 40 && traincount - trainsuccess <= 2
-					&& misscall <= 3)
-				app.getDigimon().evolution("Adult", "Data", "ABCDDdddDD", 12,
-						190);
-			else if (traincount > 30 && traincount < 40)
-				app.getDigimon().evolution("Adult", "Vaccine", "ABDD", 13, 160);
-			else if (traincount > 20 && traincount < 30)
-				app.getDigimon().evolution("Adult", "Data", "ABCC", 14, 150);
-			else
-				app.getDigimon().evolution("Adult", "Virus", "ABEE", 15, 150);
-		} else {
-			if (traincount >= 40 && traincount - trainsuccess > 3
-					&& misscall > 3)
-				app.getDigimon().evolution("Adult", "Virus", "ABCDDdedeDD", 16,
-						170);
-			else if (traincount > 30 && traincount < 40)
-				app.getDigimon().evolution("Adult", "Virus", "ABEE", 17, 150);
-			else
-				app.getDigimon().evolution("Adult", "Data", "ABCC", 18, 150);
-
-		}
-	}
 }

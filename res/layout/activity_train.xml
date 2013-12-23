@@ -34,8 +34,8 @@
 
         <ImageView
             android:id="@+id/digimon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"
@@ -68,9 +68,9 @@
         android:visibility="invisible" >
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/digimon2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="41dp"
@@ -82,7 +82,7 @@
             android:layout_height="250dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/imageView3"
+            android:layout_toLeftOf="@+id/digimon2"
             android:src="@drawable/superhit" />
 
         <TextView
@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="60dp"
             android:layout_marginTop="150dp"
-            android:layout_toLeftOf="@+id/imageView3"
+            android:layout_toLeftOf="@+id/digimon2"
             android:text="3"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="50dp" />
@@ -104,9 +104,9 @@
         android:visibility="invisible" >
 
         <ImageView
-            android:id="@+id/shit1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/digimon3"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="40dp"

@@ -229,6 +229,7 @@ public class MainActivity extends Activity {
 			}
 
 			field.addView(food);
+			koMissCall();
 			break;
 
 		case TRAIN_REQUEST_CODE:
@@ -239,6 +240,7 @@ public class MainActivity extends Activity {
 			}
 
 			// field.addView(emotion);
+			koMissCall();
 		default:
 			break;
 		}
@@ -273,6 +275,15 @@ public class MainActivity extends Activity {
 
 		case R.id.goSleep:
 			digimonModel.setSleep(!digimonModel.getSleep());
+			return true;
+			
+		case R.id.evoBaby1:
+			Digidatabase database = new Digidatabase(app);
+			database.readDatabse("Digidatabase.txt");
+			database.toBABYI(app.getDigimon());
+			
+			stopAnimation();
+			evolutionAnimation();
 			return true;
 
 		default:
@@ -546,9 +557,10 @@ public class MainActivity extends Activity {
 		animatorSet.playTogether(anim1, anim2);
 		animatorSet.addListener(new AnimatorListenerAdapter() {
 			public void onAnimationEnd(Animator animation) {
-				digimon.setVisibility(View.INVISIBLE);
+				newDigimon.setVisibility(View.INVISIBLE);
 				
-				digimon = newDigimon;
+				digimon.setImageResource(digimonModel.getPhoto());
+				digimon.setAlpha(1.0f);
 				
 				emotion.setImageResource(R.drawable.happy);
 				emotionAnimation(TRAIN_HAPPY);
@@ -660,6 +672,7 @@ public class MainActivity extends Activity {
 							water.setVisibility(View.INVISIBLE);
 							water.setAlpha(1.0f);
 							canPressButton = true;
+							koMissCall();
 
 							if (cleanHappy) {
 								emotion.setImageResource(R.drawable.happy);
@@ -701,6 +714,19 @@ public class MainActivity extends Activity {
 		}
 
 		return false;
+	}
+	
+	public void koMissCall(){
+		if (digimonModel.getStrength()!=0 || digimonModel.getShit() ==0 || digimonModel.getHunger()!=0 )
+		{
+			app.setMissCall(false);
+			ImageButton call = (ImageButton) findViewById(R.id.call_button);
+			call.setAlpha(1.0f);
+		}
+		else{
+			ImageButton call = (ImageButton) findViewById(R.id.call_button);
+			call.setAlpha(0.3f);
+		}
 	}
 
 	// intent
